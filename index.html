@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Independence & Freedom Calculator (UK)</title>
+    <title>Financial Independence & Freedom Calculator</title>
     <style>
         * {
             margin: 0;
@@ -41,6 +41,35 @@
             color: #666;
             margin-bottom: 40px;
             font-size: 1.1em;
+        }
+
+        .currency-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .currency-btn {
+            padding: 12px 30px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .currency-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .currency-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
         }
 
         .definition-section {
@@ -108,7 +137,7 @@
             cursor: pointer;
         }
 
-        button {
+        button.calculate-btn {
             width: 100%;
             padding: 15px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -121,11 +150,11 @@
             transition: transform 0.2s;
         }
 
-        button:hover {
+        button.calculate-btn:hover {
             transform: translateY(-2px);
         }
 
-        button:active {
+        button.calculate-btn:active {
             transform: translateY(0);
         }
 
@@ -197,6 +226,11 @@
                 font-size: 1.8em;
             }
 
+            .currency-btn {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+
             .result-card .amount {
                 font-size: 2em;
             }
@@ -205,8 +239,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>💷 Financial Independence & Freedom Calculator</h1>
+        <h1>💰 Financial Independence & Freedom Calculator</h1>
         <p class="subtitle">Calculate the capital needed to achieve your financial goals and live life on your terms</p>
+
+        <div class="currency-selector">
+            <button class="currency-btn active" onclick="setCurrency('GBP')" id="btn-GBP">🇬🇧 UK (£)</button>
+            <button class="currency-btn" onclick="setCurrency('USD')" id="btn-USD">🇺🇸 US ($)</button>
+            <button class="currency-btn" onclick="setCurrency('EUR')" id="btn-EUR">🇪🇺 Europe (€)</button>
+        </div>
 
         <div class="definition-section">
             <h3>📊 Financial Independence</h3>
@@ -222,12 +262,12 @@
             <h2>💰 Input Your Numbers</h2>
 
             <div class="input-group">
-                <label for="currentExpenses">Current Monthly Expenses (£)</label>
+                <label for="currentExpenses">Current Monthly Expenses (<span id="currency1">£</span>)</label>
                 <input type="number" id="currentExpenses" placeholder="e.g. 2500" min="0" step="100">
             </div>
 
             <div class="input-group">
-                <label for="desiredExpenses">Desired Monthly Lifestyle Expenses (£)</label>
+                <label for="desiredExpenses">Desired Monthly Lifestyle Expenses (<span id="currency2">£</span>)</label>
                 <input type="number" id="desiredExpenses" placeholder="e.g. 4000" min="0" step="100">
             </div>
 
@@ -246,7 +286,7 @@
                 <input type="number" id="inflationRate" placeholder="e.g. 3" min="0" max="100" step="0.1" value="3">
             </div>
 
-            <button onclick="calculateNumbers()">Calculate Your Numbers</button>
+            <button class="calculate-btn" onclick="calculateNumbers()">Calculate Your Numbers</button>
         </div>
 
         <div class="results-section">
@@ -275,17 +315,59 @@
             <h2>📈 Calculation Methodology</h2>
             <p><strong>Basic Formula:</strong> Required Capital = Annual Expenses ÷ Annual Return Rate</p>
             <p><strong>With Inflation:</strong> Required Capital = Annual Expenses ÷ (Return Rate - Inflation Rate)</p>
-            <p><strong>Example:</strong> If you need £60,000 annually and expect 7% returns, you need £857,143 in capital.</p>
+            <p><strong>Example:</strong> If you need <span id="exampleCurrency">£</span>60,000 annually and expect 7% returns, you need <span id="exampleAmount">£</span>857,143 in capital.</p>
             <p><strong>Safety Note:</strong> These calculations assume a perpetual withdrawal strategy. Consider consulting a financial adviser for personalized advice.</p>
         </div>
     </div>
 
     <script>
+        let currentCurrency = 'GBP';
+        
+        const currencySymbols = {
+            'GBP': '£',
+            'USD': '$',
+            'EUR': '€'
+        };
+
+        const currencyLocales = {
+            'GBP': 'en-GB',
+            'USD': 'en-US',
+            'EUR': 'de-DE'
+        };
+
+        function setCurrency(currency) {
+            currentCurrency = currency;
+            
+            // Update button styles
+            document.querySelectorAll('.currency-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('btn-' + currency).classList.add('active');
+            
+            // Update currency symbols in labels
+            const symbol = currencySymbols[currency];
+            document.getElementById('currency1').textContent = symbol;
+            document.getElementById('currency2').textContent = symbol;
+            document.getElementById('exampleCurrency').textContent = symbol;
+            document.getElementById('exampleAmount').textContent = symbol;
+            
+            // Reset results to show new currency
+            const defaultSymbol = currencySymbols[currentCurrency] + '0';
+            document.getElementById('independenceAmount').textContent = defaultSymbol;
+            document.getElementById('freedomAmount').textContent = defaultSymbol;
+            document.getElementById('annualIncome').textContent = defaultSymbol;
+        }
+
         function formatCurrency(amount) {
-            return '£' + amount.toLocaleString('en-GB', {
+            const symbol = currencySymbols[currentCurrency];
+            const locale = currencyLocales[currentCurrency];
+            
+            const formatted = amount.toLocaleString(locale, {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0
             });
+            
+            return symbol + formatted;
         }
 
         function calculateNumbers() {
