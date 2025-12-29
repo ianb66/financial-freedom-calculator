@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Independence & Freedom Calculator (UK)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .definition-section {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .definition-section h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .input-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+
+        .input-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.1em;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .results-section {
+            margin-top: 40px;
+        }
+
+        .results-section h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .result-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .result-card .amount {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .result-card .description {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+
+        .methodology {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 40px;
+        }
+
+        .methodology h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .methodology p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .methodology strong {
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .result-card .amount {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💷 Financial Independence & Freedom Calculator</h1>
+        <p class="subtitle">Calculate the capital needed to achieve your financial goals and live life on your terms</p>
+
+        <div class="definition-section">
+            <h3>📊 Financial Independence</h3>
+            <p><strong>Financial Independence</strong> is achieved when you have accumulated enough capital that through various investments it provides you with the liquid cash flow to live the exact same quality of life you have today without ever having to work again.</p>
+        </div>
+
+        <div class="definition-section">
+            <h3>🎯 Financial Freedom</h3>
+            <p><strong>Financial Freedom</strong> is achieved when you have accumulated enough capital that through various investments it provides you with the liquid cash flow so that you can live the lifestyle you desire for the rest of your life without ever having to work again.</p>
+        </div>
+
+        <div class="input-section">
+            <h2>💰 Input Your Numbers</h2>
+
+            <div class="input-group">
+                <label for="currentExpenses">Current Monthly Expenses (£)</label>
+                <input type="number" id="currentExpenses" placeholder="e.g. 2500" min="0" step="100">
+            </div>
+
+            <div class="input-group">
+                <label for="desiredExpenses">Desired Monthly Lifestyle Expenses (£)</label>
+                <input type="number" id="desiredExpenses" placeholder="e.g. 4000" min="0" step="100">
+            </div>
+
+            <div class="input-group">
+                <label for="returnRate">Expected Annual Return Rate (%)</label>
+                <input type="number" id="returnRate" placeholder="e.g. 7" min="0" max="100" step="0.1" value="7">
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="adjustInflation" checked>
+                <label for="adjustInflation" style="margin-bottom: 0;">Adjust for Inflation (3% annually)</label>
+            </div>
+
+            <div class="input-group">
+                <label for="inflationRate">Annual Inflation Rate (%)</label>
+                <input type="number" id="inflationRate" placeholder="e.g. 3" min="0" max="100" step="0.1" value="3">
+            </div>
+
+            <button onclick="calculateNumbers()">Calculate Your Numbers</button>
+        </div>
+
+        <div class="results-section">
+            <h2>🎯 Your Financial Goals</h2>
+
+            <div class="result-card">
+                <h3>Financial Independence</h3>
+                <div class="amount" id="independenceAmount">£0</div>
+                <div class="description">Capital needed to maintain current lifestyle</div>
+            </div>
+
+            <div class="result-card">
+                <h3>Financial Freedom</h3>
+                <div class="amount" id="freedomAmount">£0</div>
+                <div class="description">Capital needed for desired lifestyle</div>
+            </div>
+
+            <div class="result-card">
+                <h3>Annual Income Needed</h3>
+                <div class="amount" id="annualIncome">£0</div>
+                <div class="description">From investments for desired lifestyle</div>
+            </div>
+        </div>
+
+        <div class="methodology">
+            <h2>📈 Calculation Methodology</h2>
+            <p><strong>Basic Formula:</strong> Required Capital = Annual Expenses ÷ Annual Return Rate</p>
+            <p><strong>With Inflation:</strong> Required Capital = Annual Expenses ÷ (Return Rate - Inflation Rate)</p>
+            <p><strong>Example:</strong> If you need £60,000 annually and expect 7% returns, you need £857,143 in capital.</p>
+            <p><strong>Safety Note:</strong> These calculations assume a perpetual withdrawal strategy. Consider consulting a financial adviser for personalized advice.</p>
+        </div>
+    </div>
+
+    <script>
+        function formatCurrency(amount) {
+            return '£' + amount.toLocaleString('en-GB', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            });
+        }
+
+        function calculateNumbers() {
+            const currentExpenses = parseFloat(document.getElementById('currentExpenses').value) || 0;
+            const desiredExpenses = parseFloat(document.getElementById('desiredExpenses').value) || 0;
+            const returnRate = parseFloat(document.getElementById('returnRate').value) || 0;
+            const adjustInflation = document.getElementById('adjustInflation').checked;
+            const inflationRate = parseFloat(document.getElementById('inflationRate').value) || 0;
+
+            if (currentExpenses === 0 || desiredExpenses === 0 || returnRate === 0) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            const annualCurrent = currentExpenses * 12;
+            const annualDesired = desiredExpenses * 12;
+
+            let effectiveRate = returnRate / 100;
+
+            if (adjustInflation) {
+                effectiveRate = (returnRate - inflationRate) / 100;
+            }
+
+            if (effectiveRate <= 0) {
+                alert('Return rate must be greater than inflation rate');
+                return;
+            }
+
+            const independenceCapital = annualCurrent / effectiveRate;
+            const freedomCapital = annualDesired / effectiveRate;
+
+            document.getElementById('independenceAmount').textContent = formatCurrency(independenceCapital);
+            document.getElementById('freedomAmount').textContent = formatCurrency(freedomCapital);
+            document.getElementById('annualIncome').textContent = formatCurrency(annualDesired);
+        }
+    </script>
+</body>
+</html>
